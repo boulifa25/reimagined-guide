@@ -1,0 +1,122 @@
+<main class="app-root">
+  <header class="app-header">
+    <h1>Student Management Frontend</h1>
+    <p>Simple Angular UI calling the Spring backend.</p>
+  </header>
+
+  <!-- Students -->
+  <section class="app-content">
+    <h2>Students</h2>
+    <button type="button" (click)="loadStudents()">Load all students</button>
+    <div *ngIf="loadingStudents">Loading students...</div>
+
+    <ul *ngIf="students.length">
+      <li *ngFor="let s of students">
+        ID: {{ s.idStudent }} – {{ s.firstName }} {{ s.lastName }} – {{ s.email }} – {{ s.phone }} –
+        DOB: {{ s.dateOfBirth || 'N/A' }} – Address: {{ s.address }} –
+        Department: {{ s.department?.name || 'N/A' }}
+        <button type="button" (click)="deleteStudent(s.idStudent)">Delete</button>
+      </li>
+    </ul>
+
+    <div class="by-id">
+      <label>
+        Student ID:
+        <input type="number" [(ngModel)]="studentId" />
+      </label>
+      <button type="button" (click)="loadStudentById()">Load student by ID</button>
+      <div *ngIf="loadingStudentById">Loading student...</div>
+      <div *ngIf="selectedStudent">
+        Selected: ID {{ selectedStudent.idStudent }} – {{ selectedStudent.firstName }} {{ selectedStudent.lastName }} –
+        {{ selectedStudent.email }} – {{ selectedStudent.phone }} – DOB: {{ selectedStudent.dateOfBirth || 'N/A' }} –
+        Address: {{ selectedStudent.address }} – Department: {{ selectedStudent.department?.name || 'N/A' }}
+      </div>
+    </div>
+
+    <div class="form">
+      <h3>Create student</h3>
+      <label>First name: <input [(ngModel)]="newStudent.firstName" /></label>
+      <label>Last name: <input [(ngModel)]="newStudent.lastName" /></label>
+      <label>Email: <input [(ngModel)]="newStudent.email" /></label>
+      <label>Phone: <input [(ngModel)]="newStudent.phone" /></label>
+      <label>Address: <input [(ngModel)]="newStudent.address" /></label>
+      <button type="button" (click)="createStudent()">Create student</button>
+    </div>
+  </section>
+
+  <!-- Departments -->
+  <section class="app-content">
+    <h2>Departments</h2>
+    <button type="button" (click)="loadDepartments()">Load all departments</button>
+    <div *ngIf="loadingDepartments">Loading departments...</div>
+
+    <ul *ngIf="departments.length">
+      <li *ngFor="let d of departments">
+        ID: {{ d.idDepartment }} – {{ d.name }} – {{ d.location }} – {{ d.phone }} – Head: {{ d.head }}
+        <button type="button" (click)="deleteDepartment(d.idDepartment)">Delete</button>
+      </li>
+    </ul>
+
+    <div class="by-id">
+      <label>
+        Department ID:
+        <input type="number" [(ngModel)]="departmentId" />
+      </label>
+      <button type="button" (click)="loadDepartmentById()">Load department by ID</button>
+      <div *ngIf="loadingDepartmentById">Loading department...</div>
+      <div *ngIf="selectedDepartment">
+        Selected: ID {{ selectedDepartment.idDepartment }} – {{ selectedDepartment.name }} –
+        {{ selectedDepartment.location }} – {{ selectedDepartment.phone }} – Head: {{ selectedDepartment.head }}
+      </div>
+    </div>
+
+    <div class="form">
+      <h3>Create department</h3>
+      <label>Name: <input [(ngModel)]="newDepartment.name" /></label>
+      <label>Location: <input [(ngModel)]="newDepartment.location" /></label>
+      <label>Phone: <input [(ngModel)]="newDepartment.phone" /></label>
+      <label>Head: <input [(ngModel)]="newDepartment.head" /></label>
+      <button type="button" (click)="createDepartment()">Create department</button>
+    </div>
+  </section>
+
+  <!-- Enrollments -->
+  <section class="app-content">
+    <h2>Enrollments</h2>
+    <button type="button" (click)="loadEnrollments()">Load all enrollments</button>
+    <div *ngIf="loadingEnrollments">Loading enrollments...</div>
+
+    <ul *ngIf="enrollments.length">
+      <li *ngFor="let e of enrollments">
+        ID: {{ e.idEnrollment }} – Date: {{ e.enrollmentDate || 'N/A' }} – Grade: {{ e.grade ?? 'N/A' }} –
+        Status: {{ e.status }} – Student: {{ e.student?.firstName }} {{ e.student?.lastName }} –
+        Course: {{ e.course?.name }} ({{ e.course?.code }})
+        <button type="button" (click)="deleteEnrollment(e.idEnrollment)">Delete</button>
+      </li>
+    </ul>
+
+    <div class="by-id">
+      <label>
+        Enrollment ID:
+        <input type="number" [(ngModel)]="enrollmentId" />
+      </label>
+      <button type="button" (click)="loadEnrollmentById()">Load enrollment by ID</button>
+      <div *ngIf="loadingEnrollmentById">Loading enrollment...</div>
+      <div *ngIf="selectedEnrollment">
+        Selected: ID {{ selectedEnrollment.idEnrollment }} – Date: {{ selectedEnrollment.enrollmentDate || 'N/A' }} –
+        Grade: {{ selectedEnrollment.grade ?? 'N/A' }} – Status: {{ selectedEnrollment.status }} –
+        Student: {{ selectedEnrollment.student?.firstName }} {{ selectedEnrollment.student?.lastName }} –
+        Course: {{ selectedEnrollment.course?.name }} ({{ selectedEnrollment.course?.code }})
+      </div>
+    </div>
+
+    <div class="form">
+      <h3>Create enrollment (simple version)</h3>
+      <label>Grade: <input type="number" [(ngModel)]="newEnrollment.grade" /></label>
+      <label>Status: <input [(ngModel)]="newEnrollment.status" /></label>
+      <button type="button" (click)="createEnrollment()">Create enrollment</button>
+    </div>
+  </section>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+</main>
